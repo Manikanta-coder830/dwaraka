@@ -13,7 +13,6 @@ export async function GET() {
       const category = parts[1] || 'rooms'
       
       return {
-        url: blob.url,
         pathname: blob.pathname,
         category,
         filename: parts[parts.length - 1] || 'unknown',
@@ -30,17 +29,25 @@ export async function GET() {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { url } = await request.json()
+    const { pathname } = await request.json()
 
-    if (!url) {
-      return NextResponse.json({ error: 'No URL provided' }, { status: 400 })
+    if (!pathname) {
+      return NextResponse.json({ error: 'No pathname provided' }, { status: 400 })
     }
 
-    await del(url)
+    // Get the full URL for deletion
+    const blobs = await list({ prefix: 'gallery/' })
+    const blob = blobs.blobs.find(b => b.pathname === pathname)
+    
+    if (!blob) {
+      return NextResponse.json({ error: 'File not found' }, { status: 404 })
+    }
+
+    await del(blob.url)
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Delete error:', error)
+    console.error('[v0] Delete error:', error)
     return NextResponse.json({ error: 'Delete failed' }, { status: 500 })
   }
 }

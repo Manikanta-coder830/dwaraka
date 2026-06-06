@@ -7,7 +7,6 @@ import useSWR from "swr"
 import { Upload } from "lucide-react"
 
 interface GalleryImage {
-  url: string
   pathname: string
   category: string
   filename: string
@@ -35,7 +34,7 @@ export function GallerySection() {
   const hasImages = uploadedImages.length > 0
 
   const displayImages = uploadedImages.map((img) => ({
-    url: img.url,
+    pathname: img.pathname,
     category: img.category,
   }))
 
@@ -95,11 +94,11 @@ export function GallerySection() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredImages.map((image, index) => (
               <div
-                key={`${image.url}-${index}`}
+                key={`${image.pathname}-${index}`}
                 className="group relative aspect-[4/3] overflow-hidden rounded-xl bg-card border border-border"
               >
                 <Image
-                  src={image.url}
+                  src={`/api/file?pathname=${encodeURIComponent(image.pathname)}`}
                   alt={categoryLabels[image.category] || image.category}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"

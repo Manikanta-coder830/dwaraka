@@ -32,14 +32,14 @@ export async function POST(request: NextRequest) {
 
     console.log('[v0] Uploading blob:', filename)
 
+    // Use private access for the Blob store
     const blob = await put(filename, file, {
-      access: 'public',
+      access: 'private',
     })
 
-    console.log('[v0] Upload successful:', { url: blob.url, pathname: blob.pathname })
+    console.log('[v0] Upload successful:', { pathname: blob.pathname })
 
     return NextResponse.json({ 
-      url: blob.url,
       pathname: blob.pathname,
       category,
       success: true

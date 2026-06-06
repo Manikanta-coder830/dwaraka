@@ -16,7 +16,6 @@ const categories = [
 ]
 
 interface GalleryImage {
-  url: string
   pathname: string
   category: string
   filename: string
@@ -101,22 +100,22 @@ export default function AdminUploadPage() {
     [selectedCategory]
   )
 
-  const handleDelete = async (url: string) => {
+  const handleDelete = async (pathname: string) => {
     if (!confirm("Are you sure you want to delete this image?")) return
 
-    setDeleting(url)
+    setDeleting(pathname)
     try {
       const res = await fetch("/api/gallery", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ pathname }),
       })
 
       if (res.ok) {
         mutate("/api/gallery")
       }
     } catch (error) {
-      console.error("Delete failed:", error)
+      console.error("[v0] Delete failed:", error)
     }
     setDeleting(null)
   }
@@ -262,17 +261,17 @@ export default function AdminUploadPage() {
                       className="relative group aspect-square rounded-lg overflow-hidden bg-secondary"
                     >
                       <Image
-                        src={img.url}
+                        src={`/api/file?pathname=${encodeURIComponent(img.pathname)}`}
                         alt={img.filename}
                         fill
                         className="object-cover"
                       />
                       <button
-                        onClick={() => handleDelete(img.url)}
-                        disabled={deleting === img.url}
+                        onClick={() => handleDelete(img.pathname)}
+                        disabled={deleting === img.pathname}
                         className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50"
                       >
-                        {deleting === img.url ? (
+                        {deleting === img.pathname ? (
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         ) : (
                           <Trash2 className="w-4 h-4" />
