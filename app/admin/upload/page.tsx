@@ -12,6 +12,7 @@ const categories = [
   { id: "dining", label: "Dining" },
   { id: "study", label: "Study Hall" },
   { id: "games", label: "Games Zone" },
+  { id: "events", label: "Events" },
   { id: "exterior", label: "Exterior" },
 ]
 

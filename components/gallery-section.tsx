@@ -19,6 +19,7 @@ const categoryLabels: Record<string, string> = {
   dining: "Dining",
   study: "Study Area",
   games: "Games Zone",
+  events: "Events",
   exterior: "Exterior",
 }
 
