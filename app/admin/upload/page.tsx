@@ -43,6 +43,9 @@ export default function AdminUploadPage() {
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
+        const statusIndex = uploadProgress.length
+
+        // Add initial status
         setUploadProgress((prev) => [...prev, `Uploading ${file.name}...`])
 
         const formData = new FormData()
@@ -50,35 +53,47 @@ export default function AdminUploadPage() {
         formData.append("category", selectedCategory)
 
         try {
+          console.log('[v0] Sending upload request:', { name: file.name, size: file.size })
+
           const res = await fetch("/api/upload", {
             method: "POST",
             body: formData,
           })
 
-          if (res.ok) {
+          console.log('[v0] Upload response status:', res.status)
+          const data = await res.json()
+          console.log('[v0] Upload response:', data)
+
+          if (res.ok && data.success) {
             setUploadProgress((prev) => {
               const newProgress = [...prev]
-              newProgress[newProgress.length - 1] = `Uploaded ${file.name}`
+              newProgress[statusIndex] = `✓ Uploaded ${file.name}`
               return newProgress
             })
           } else {
+            const errorMsg = data.error || 'Upload failed'
+            console.error('[v0] Upload failed:', errorMsg)
             setUploadProgress((prev) => {
               const newProgress = [...prev]
-              newProgress[newProgress.length - 1] = `Failed: ${file.name}`
+              newProgress[statusIndex] = `✗ ${file.name}: ${errorMsg}`
               return newProgress
             })
           }
-        } catch {
+        } catch (error) {
+          console.error('[v0] Upload error:', error)
+          const errorMsg = error instanceof Error ? error.message : 'Connection error'
           setUploadProgress((prev) => {
             const newProgress = [...prev]
-            newProgress[newProgress.length - 1] = `Error: ${file.name}`
+            newProgress[statusIndex] = `✗ ${file.name}: ${errorMsg}`
             return newProgress
           })
         }
       }
 
       setUploading(false)
-      mutate("/api/gallery")
+      setTimeout(() => {
+        mutate("/api/gallery")
+      }, 500)
       
       // Clear the input
       e.target.value = ""
@@ -193,16 +208,18 @@ export default function AdminUploadPage() {
               {uploadProgress.map((status, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-2 text-sm text-muted-foreground"
+                  className="flex items-center gap-2 text-sm"
                 >
                   {status.startsWith("Uploading") ? (
                     <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                  ) : status.startsWith("Uploaded") ? (
+                  ) : status.startsWith("✓") ? (
                     <Check className="w-4 h-4 text-green-500" />
                   ) : (
                     <X className="w-4 h-4 text-red-500" />
                   )}
-                  <span>{status}</span>
+                  <span className={status.startsWith("✗") ? "text-red-500" : "text-muted-foreground"}>
+                    {status}
+                  </span>
                 </div>
               ))}
             </div>
