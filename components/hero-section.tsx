@@ -41,7 +41,7 @@ export function HeroSection() {
         {/* Price Highlight */}
         <div className="flex items-center justify-center gap-2 mb-10">
           <span className="text-muted-foreground">Starting at just</span>
-          <span className="text-3xl md:text-4xl font-bold text-primary">₹7,500</span>
+          <span className="text-3xl md:text-4xl font-bold text-primary">₹7,000</span>
           <span className="text-muted-foreground">/month</span>
         </div>
 
