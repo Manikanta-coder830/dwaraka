@@ -22,7 +22,7 @@ export function FooterSection() {
       single: "Single Sharing - ₹20,000/month",
       double: "Double Sharing - ₹12,000/month",
       triple: "Triple Sharing - ₹9,500/month",
-      fourshare: "4 Share - ₹7,500/month",
+      fourshare: "4 Share - ₹7,000/month",
     }
     
     const message = `Hello! I'm interested in booking a room at Dwaraka Stays.
@@ -184,7 +184,7 @@ Please contact me with more details.`
                     <option value="single">Single Sharing - ₹20,000/month</option>
                     <option value="double">Double Sharing - ₹12,000/month</option>
                     <option value="triple">Triple Sharing - ₹9,500/month</option>
-                    <option value="fourshare">4 Share - ₹7,500/month</option>
+                    <option value="fourshare">4 Share - ₹7,000/month</option>
                   </select>
                 </div>
 

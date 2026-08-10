@@ -47,7 +47,7 @@ const rooms = [
   {
     title: "4 Share",
     occupancy: 4,
-    price: "₹7,500",
+    price: "₹7,000",
     features: [
       "Shared room",
       "Common bathroom",
