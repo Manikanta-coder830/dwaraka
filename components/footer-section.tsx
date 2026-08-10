@@ -66,7 +66,13 @@ Please contact me with more details.`
             {/* Contact Details */}
             <div className="space-y-6">
               {/* Address */}
-              <div className="flex items-start gap-4">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Dwaraka+Stays%2C+Madhura+Nagar%2C+Shamshabad%2C+Rangareddy+District%2C+Telangana+501218"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-4 rounded-lg transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                aria-label="Open Dwaraka Stays address in Google Maps"
+              >
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-5 h-5 text-primary" />
                 </div>
@@ -77,8 +83,9 @@ Please contact me with more details.`
                     Madhura Nagar, Shamshabad,<br />
                     Rangareddy District, Telangana 501218
                   </p>
+                  <span className="mt-2 inline-block text-xs font-medium text-primary">Open in Google Maps</span>
                 </div>
-              </div>
+              </a>
 
               {/* Phone */}
               <div className="flex items-start gap-4">
